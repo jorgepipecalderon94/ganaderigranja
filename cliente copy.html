@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Menú Estudiante</title>
+  <link href="css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<img src="imagen/logo.png"/> 
+    <div class="bg-success text-white text-center py-3">
+  <h5 class="mb-1">INSTITUCIÓN EDUCATIVA AGROTÉCNICO MIXTO</h5>
+  <p class="mb-0">
+    NIT: 800122064-7 &nbsp; | &nbsp; Municipio: Belén de los Andaquíes
+  </p>
+</div>
+<!-- Encabezado -->
+<div class="bg-success text-white text-center py-3">
+  <h4>Sistema de Gestión Ganadera</h4>
+  <p class="mb-0">Menú del Estudiante</p>
+</div>
+
+<nav class="navbar navbar-dark bg-primary">
+  <div class="container-fluid">
+    <button class="btn btn-outline-light" data-bs-toggle="offcanvas" data-bs-target="#menuLateral">
+      ☰ Menú
+    </button>
+    <span class="navbar-brand">Inicio</span>
+  </div>
+</nav>
+
+<!-- Menú lateral -->
+<div class="offcanvas offcanvas-start" id="menuLateral">
+  <div class="offcanvas-header">
+    <h5>Opciones</h5>
+    <button class="btn-close" data-bs-dismiss="offcanvas"></button>
+  </div>
+
+  <div class="offcanvas-body">
+    <ul class="nav flex-column">
+      <li class="nav-item"><a class="nav-link" href="registro_reproductivo.html">registro reproductivo</a></li>
+      <li class="nav-item"><a class="nav-link" href="registro_sanitario.html">Registrar Evento Sanitario</a></li>
+      <li class="nav-item"><a class="nav-link" href="registro_inventario.html">registro Inventario</a></li>
+      <li class="nav-item"><a class="nav-link" href="registro_crias.html">Registrar Crías</a></li>
+      <li class="nav-item"><a class="nav-link" href="registro_medicamentos.html">Registrar Medicamentos</a></li>
+      <li class="nav-item"><a class="nav-link" href="registro_leche_mes.html">Registro Leche por mes</a></li>
+      <li class="nav-item"><a class="nav-link" href="registro_leche_diaria.html">Registro Leche Diaria</a></li>
+    </ul>
+  </div>
+</div>
+
+<script src="js/bootstrap.bundle.min.js"></script>
+</body>
+<script>
+
+let rol = localStorage.getItem("rol");
+
+document.querySelectorAll(".profesor").forEach(function(el){
+if(rol !== "profesor"){
+el.style.display="none";
+}
+});
+
+document.querySelectorAll(".operario").forEach(function(el){
+if(rol !== "operario"){
+el.style.display="none";
+}
+});
+
+document.querySelectorAll(".estudiante").forEach(function(el){
+if(rol !== "estudiante"){
+el.style.display="none";
+}
+});
+
+</script>
+
+</script>
+
+</html>

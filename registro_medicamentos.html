@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Registro de Aplicación de Medicamentos Veterinarios</title>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<style>
+body{ background:#eef2f7; }
+.card{ border-radius: 15px; }
+.table thead{ background:#0d6efd; color:white; }
+.btn-rounded{ border-radius:30px; }
+</style>
+
+</head>
+
+<body class="p-4">
+
+<div class="container">
+
+    <h2 class="text-center mb-4">🐄 FORMATO DE REGISTRO DE APLICACIÓN DE MEDICAMENTOS VETERINARIOS</h2>
+
+    <!-- FORMULARIO -->
+    <div class="card p-4 shadow">
+
+        <h4 class="mb-3">Formulario de Registro</h4>
+
+        <form id="formMedicamentos">
+
+            <div class="row mb-3">
+                <div class="col-md-3">
+                    <label>Fecha de Aplicación</label>
+                    <input type="date" id="fecha" class="form-control">
+                </div>
+
+                <div class="col-md-3">
+                    <label>Producto</label>
+                    <input type="text" id="producto" class="form-control">
+                </div>
+
+                <div class="col-md-3">
+                    <label>Laboratorio</label>
+                    <input type="text" id="laboratorio" class="form-control">
+                </div>
+
+                <div class="col-md-3">
+                    <label>N° de Lote</label>
+                    <input type="text" id="lote" class="form-control">
+                </div>
+            </div>
+
+            <div class="row mb-3">
+
+                <div class="col-md-3">
+                    <label>Dosis Aplicada</label>
+                    <input type="text" id="dosis" class="form-control" placeholder="Ej: 10CC/vaca">
+                </div>
+
+                <div class="col-md-3">
+                    <label>Vía de Aplicación</label>
+                    <select id="via" class="form-control">
+                        <option value="IM">IM</option>
+                        <option value="SC">SC</option>
+                        <option value="VO">VO</option>
+                    </select>
+                </div>
+
+                <div class="col-md-3">
+                    <label>Retiro en Leche (días)</label>
+                    <input type="number" id="retiroLeche" min="0" value="0" class="form-control">
+                </div>
+
+                <div class="col-md-3">
+                    <label>Retiro en Carne (días)</label>
+                    <input type="number" id="retiroCarne" min="0" value="0" class="form-control">
+                </div>
+
+            </div>
+
+            <div class="row mb-3">
+                <div class="col-md-3">
+                    <label>N° Animales Tratados</label>
+                    <input type="number" id="animales" min="0" class="form-control">
+                </div>
+
+                <div class="col-md-6">
+                    <label>Responsable</label>
+                    <input type="text" id="responsable" class="form-control">
+                </div>
+            </div>
+
+            <button type="button" class="btn btn-success btn-rounded mt-3" onclick="agregarRegistro()">➕ Agregar Registro</button>
+
+        </form>
+
+    </div>
+
+    <!-- TABLA -->
+    <div class="card mt-4 p-4 shadow">
+
+        <h4>Registros Guardados</h4>
+
+        <table class="table mt-3" id="tablaMedicamentos">
+            <thead>
+                <tr>
+                    <th>Fecha</th>
+                    <th>Producto</th>
+                    <th>Laboratorio</th>
+                    <th>N° Lote</th>
+                    <th>Dosis</th>
+                    <th>Vía</th>
+                    <th>Retiro Leche</th>
+                    <th>Retiro Carne</th>
+                    <th>N° Animales</th>
+                    <th>Responsable</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+
+        <button class="btn btn-primary btn-rounded me-2" onclick="descargarExcel()">📊 Exportar Excel</button>
+        <button class="btn btn-danger btn-rounded" onclick="descargarPDF()">📄 Exportar PDF</button>
+
+    </div>
+
+</div>
+
+<!-- LIBRERÍAS -->
+<script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+<script>
+
+// Agregar registro
+function agregarRegistro() {
+
+    const tabla = document.querySelector("#tablaMedicamentos tbody");
+    const fila = document.createElement("tr");
+
+    fila.innerHTML = `
+        <td>${fecha.value}</td>
+        <td>${producto.value}</td>
+        <td>${laboratorio.value}</td>
+        <td>${lote.value}</td>
+        <td>${dosis.value}</td>
+        <td>${via.value}</td>
+        <td>${retiroLeche.value}</td>
+        <td>${retiroCarne.value}</td>
+        <td>${animales.value}</td>
+        <td>${responsable.value}</td>
+    `;
+
+    tabla.appendChild(fila);
+
+    document.getElementById("formMedicamentos").reset();
+}
+
+// Descargar Excel
+function descargarExcel(){
+    const tabla = document.getElementById("tablaMedicamentos");
+    const wb = XLSX.utils.table_to_book(tabla);
+    XLSX.writeFile(wb, "Registro_Medicamentos.xlsx");
+}
+
+// Descargar PDF
+function descargarPDF(){
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF({ orientation: "landscape" });
+
+    doc.text("Registro de Medicamentos Veterinarios", 10, 10);
+
+    doc.html(document.getElementById("tablaMedicamentos"), {
+        callback: function () { doc.save("Medicamentos_Veterinarios.pdf"); },
+        x: 10, y: 20
+    });
+}
+
+</script>
+
+</body>
+</html>

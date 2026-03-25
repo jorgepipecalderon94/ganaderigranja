@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Registro de Crías - Ganado Bovino</title>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<style>
+body{ background:#eef2f7; }
+.card{ border-radius: 15px; }
+.table thead{ background:#0d6efd; color:white; }
+.btn-rounded{ border-radius:30px; }
+</style>
+
+</head>
+
+<body class="p-4">
+
+<div class="container">
+
+    <h2 class="text-center mb-4">🐮 FORMATO DE REGISTRO DE CRÍAS DEL GANADO BOVINO <br> GRANJA SAN FRANCISCO DE ASÍS</h2>
+
+    <!-- BOTÓN REGRESAR -->
+    <button class="btn btn-secondary btn-rounded mb-3" onclick="regresarMenu()">
+        ⬅ Regresar al menú
+    </button>
+
+    <!-- FORMULARIO -->
+    <div class="card p-4 shadow">
+
+        <h4 class="mb-3">Formulario de Registro</h4>
+
+        <form id="formCrias">
+
+            <div class="row mb-3">
+                <div class="col-md-3">
+                    <label>N° cría o nombre</label>
+                    <input type="text" id="nombre" class="form-control">
+                </div>
+
+                <div class="col-md-3">
+                    <label>Fecha de nacimiento</label>
+                    <input type="date" id="fechaNacimiento" class="form-control">
+                </div>
+
+                <div class="col-md-2">
+                    <label>Sexo</label>
+                    <select id="sexo" class="form-control">
+                        <option value="M">M</option>
+                        <option value="H">H</option>
+                    </select>
+                </div>
+
+                <div class="col-md-2">
+                    <label>N°/Nombre madre</label>
+                    <input type="text" id="madre" class="form-control">
+                </div>
+
+                <div class="col-md-2">
+                    <label>N°/Nombre padre</label>
+                    <input type="text" id="padre" class="form-control">
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <div class="col-md-3">
+                    <label>Peso al nacimiento (kg)</label>
+                    <input type="number" id="pesoNacimiento" class="form-control">
+                </div>
+
+                <div class="col-md-3">
+                    <label>Fecha de destete</label>
+                    <input type="date" id="fechaDestete" class="form-control">
+                </div>
+
+                <div class="col-md-3">
+                    <label>Peso al destete (kg)</label>
+                    <input type="number" id="pesoDestete" class="form-control">
+                </div>
+
+                <div class="col-md-3">
+                    <label>Observaciones</label>
+                    <input type="text" id="observaciones" class="form-control">
+                </div>
+            </div>
+
+            <button type="button" class="btn btn-success btn-rounded mt-3" onclick="agregarRegistro()">➕ Agregar Registro</button>
+
+        </form>
+
+    </div>
+
+    <!-- TABLA -->
+    <div class="card mt-4 p-4 shadow">
+
+        <h4>Registros Guardados</h4>
+
+        <table class="table mt-3" id="tablaCrias">
+            <thead>
+                <tr>
+                    <th>Nombre cría</th>
+                    <th>Fecha nacimiento</th>
+                    <th>Sexo</th>
+                    <th>Madre</th>
+                    <th>Padre</th>
+                    <th>Peso nacimiento</th>
+                    <th>Fecha destete</th>
+                    <th>Peso destete</th>
+                    <th>Observaciones</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+
+        <button class="btn btn-primary btn-rounded me-2" onclick="descargarExcel()">📊 Exportar Excel</button>
+        <button class="btn btn-danger btn-rounded" onclick="descargarPDF()">📄 Exportar PDF</button>
+
+    </div>
+
+</div>
+
+<!-- LIBRERÍAS -->
+<script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+
+
+
+// AGREGAR REGISTRO
+function agregarRegistro() {
+
+    const tabla = document.querySelector("#tablaCrias tbody");
+    const fila = document.createElement("tr");
+
+    fila.innerHTML = `
+        <td>${nombre.value}</td>
+        <td>${fechaNacimiento.value}</td>
+        <td>${sexo.value}</td>
+        <td>${madre.value}</td>
+        <td>${padre.value}</td>
+        <td>${pesoNacimiento.value}</td>
+        <td>${fechaDestete.value}</td>
+        <td>${pesoDestete.value}</td>
+        <td>${observaciones.value}</td>
+    `;
+
+    tabla.appendChild(fila);
+
+    document.getElementById("formCrias").reset();
+}
+
+// EXPORTAR EXCEL
+function descargarExcel(){
+    const tabla = document.getElementById("tablaCrias");
+    const wb = XLSX.utils.table_to_book(tabla);
+    XLSX.writeFile(wb, "Registro_Crias.xlsx");
+}
+
+// EXPORTAR PDF
+function descargarPDF(){
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF({ orientation: "landscape" });
+
+    doc.text("Registro de Crías - Ganado Bovino", 10, 10);
+
+    doc.html(document.getElementById("tablaCrias"), {
+        callback: function () { doc.save("Crias_Ganado.pdf"); },
+        x: 10, y: 20
+    });
+}
+
+</script>
+
+</body>
+</html>

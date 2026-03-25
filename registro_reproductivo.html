@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Registro Reproductivo</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<style>
+body{
+    background:#f4f6f9;
+}
+.card{
+    border-radius: 15px;
+}
+.table thead{
+    background:#0d6efd;
+    color:white;
+}
+.btn-rounded{
+    border-radius: 30px;
+}
+</style>
+</head>
+<body class="p-4">
+
+<div class="container">
+    <h2 class="text-center mb-4">🐄 Registro Reproductivo del Ganado</h2>
+
+    <div class="card p-4 shadow">
+        <h4 class="mb-3">Formulario</h4>
+
+        <form id="formReproductivo">
+
+            <div class="row mb-3">
+                <div class="col-md-3">
+                    <label>N° Vaca</label>
+                    <input type="text" class="form-control" id="vaca" required>
+                </div>
+                <div class="col-md-3">
+                    <label>Raza</label>
+                    <input type="text" class="form-control" id="raza">
+                </div>
+                <div class="col-md-3">
+                    <label>Fecha del Último Parto</label>
+                    <input type="date" class="form-control" id="ultimoParto">
+                </div>
+                <div class="col-md-3">
+                    <label>Servicio vía</label>
+                    <select class="form-control" id="servicio">
+                        <option>Toro</option>
+                        <option>Inseminación Artificial</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <div class="col-md-3">
+                    <label>Fecha de Servicio</label>
+                    <input type="date" class="form-control" id="fechaServicio">
+                </div>
+                <div class="col-md-3">
+                    <label>Toro / IA</label>
+                    <input type="text" class="form-control" id="toro">
+                </div>
+                <div class="col-md-3">
+                    <label>Raza del Toro</label>
+                    <input type="text" class="form-control" id="razaToro">
+                </div>
+                <div class="col-md-3">
+                    <label>Inseminador</label>
+                    <input type="text" class="form-control" id="inseminador">
+                </div>
+            </div>
+
+            <h5 class="mt-3">Chequeos Reproductivos</h5>
+
+            <div class="row mb-3">
+                <div class="col-md-4">
+                    <label>Fecha Chequeo</label>
+                    <input type="date" class="form-control" id="fechaChequeo">
+                </div>
+                <div class="col-md-4">
+                    <label>Resultado</label>
+                    <select class="form-control" id="resultado">
+                        <option>Positivo</option>
+                        <option>Negativo</option>
+                        <option>Repetida</option>
+                    </select>
+                </div>
+                <div class="col-md-4">
+                    <label>Probable Fecha de Parto</label>
+                    <input type="date" class="form-control" id="fechaPartoProb">
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <div class="col-md-4">
+                    <label>Fecha de Parto Real</label>
+                    <input type="date" class="form-control" id="partoReal">
+                </div>
+                <div class="col-md-4">
+                    <label>Crías Machos</label>
+                    <input type="number" class="form-control" id="criasM" min="0">
+                </div>
+                <div class="col-md-4">
+                    <label>Crías Hembras</label>
+                    <input type="number" class="form-control" id="criasH" min="0">
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label>Observaciones</label>
+                <textarea class="form-control" id="observaciones"></textarea>
+            </div>
+
+            <button type="button" onclick="agregarRegistro()" class="btn btn-primary btn-rounded">➕ Agregar Registro</button>
+        </form>
+    </div>
+
+    <!-- Tabla -->
+    <div class="card mt-4 p-4 shadow">
+        <h4>Registros Guardados</h4>
+
+        <table class="table mt-3" id="tablaRegistros">
+            <thead>
+                <tr>
+                    <th>Vaca</th><th>Raza</th><th>Último parto</th><th>Servicio</th>
+                    <th>Fecha servicio</th><th>Toro/IA</th><th>Resultado</th>
+                    <th>Parto Prob.</th><th>Parto Real</th><th>M</th><th>H</th><th>Obs</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+
+        <button class="btn btn-success btn-rounded me-2" onclick="descargarExcel()">📊 Exportar Excel</button>
+        <button class="btn btn-danger btn-rounded" onclick="descargarPDF()">📄 Exportar PDF</button>
+    </div>
+</div>
+
+<!-- Librería XLSX para Excel -->
+<script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
+<!-- Librería jsPDF para PDF -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+<script>
+// Agregar registro
+function agregarRegistro() {
+    const tabla = document.querySelector("#tablaRegistros tbody");
+    const fila = document.createElement("tr");
+
+    fila.innerHTML = `
+        <td>${vaca.value}</td>
+        <td>${raza.value}</td>
+        <td>${ultimoParto.value}</td>
+        <td>${servicio.value}</td>
+        <td>${fechaServicio.value}</td>
+        <td>${toro.value}</td>
+        <td>${resultado.value}</td>
+        <td>${fechaPartoProb.value}</td>
+        <td>${partoReal.value}</td>
+        <td>${criasM.value}</td>
+        <td>${criasH.value}</td>
+        <td>${observaciones.value}</td>
+    `;
+    tabla.appendChild(fila);
+
+    document.getElementById("formReproductivo").reset();
+}
+
+// Exportar a Excel
+function descargarExcel(){
+    const tabla = document.getElementById("tablaRegistros");
+    const wb = XLSX.utils.table_to_book(tabla);
+    XLSX.writeFile(wb, "Registro_Reproductivo.xlsx");
+}
+
+// Exportar a PDF
+function descargarPDF(){
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF();
+    doc.text("Registro Reproductivo", 10, 10);
+    doc.html(document.getElementById("tablaRegistros"), {
+        callback: function () { doc.save("Registro_Reproductivo.pdf"); },
+        x: 10, y: 20
+    });
+}
+</script>
+
+</body>
+</html>
