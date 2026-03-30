@@ -38,12 +38,12 @@ function volverMenu(){
 
         <h4 class="mb-3">Formulario</h4>
 
-        <form id="formLeche">
+        <form action="guardar_leche.php" method="POST">
 
             <div class="row mb-3">
                 <div class="col-md-3">
                     <label>Número de Vaca</label>
-                    <input type="text" class="form-control" id="vaca" required>
+                    <input type="text" class="form-control" id="vaca" name="numero_devaca" required>
                 </div>
                 <div class="col-md-3">
                     <label>Mes</label>
@@ -66,71 +66,82 @@ function volverMenu(){
 
             <h5>Leche por día (Litros)</h5>
 
-            <div class="row mb-3">
-                <div class="col-md-2">
-                    <label>Lunes</label>
-                    <input type="number" class="form-control dia" id="lunes" min="0" value="0">
-                </div>
-                <div class="col-md-2">
-                    <label>Martes</label>
-                    <input type="number" class="form-control dia" id="martes" min="0" value="0">
-                </div>
-                <div class="col-md-2">
-                    <label>Miércoles</label>
-                    <input type="number" class="form-control dia" id="miercoles" min="0" value="0">
-                </div>
-                <div class="col-md-2">
-                    <label>Jueves</label>
-                    <input type="number" class="form-control dia" id="jueves" min="0" value="0">
-                </div>
-                <div class="col-md-2">
-                    <label>Viernes</label>
-                    <input type="number" class="form-control dia" id="viernes" min="0" value="0">
-                </div>
-                <div class="col-md-2">
-                    <label>Sábado</label>
-                    <input type="number" class="form-control dia" id="sabado" min="0" value="0">
-                </div>
-                <div class="col-md-2 mt-2">
-                    <label>Domingo</label>
-                    <input type="number" class="form-control dia" id="domingo" min="0" value="0">
-                </div>
-            </div>
+           <form action="guardar_leche.php" method="POST">
 
-            <div class="mb-3">
-                <label>Total Litros Semanales</label>
-                <input type="number" class="form-control" id="total" readonly>
-            </div>
-
-            <button type="button" class="btn btn-primary btn-rounded" onclick="agregarRegistro()">➕ Agregar Registro</button>
-
-        </form>
+<div class="row mb-3">
+    <div class="col-md-3">
+        <label>Número de Vaca</label>
+        <input type="text" class="form-control" name="numero_devaca" required>
     </div>
 
-    <div class="card mt-4 p-4 shadow">
-        <h4>Registros Guardados</h4>
-
-        <table class="table mt-3" id="tablaLeche">
-            <thead>
-                <tr>
-                    <th>Vaca</th>
-                    <th>Mes</th>
-                    <th>Lun</th>
-                    <th>Mar</th>
-                    <th>Mié</th>
-                    <th>Jue</th>
-                    <th>Vie</th>
-                    <th>Sáb</th>
-                    <th>Dom</th>
-                    <th>Total</th>
-                </tr>
-            </thead>
-            <tbody></tbody>
-        </table>
-
-        <button class="btn btn-success btn-rounded me-2" onclick="descargarExcel()">📊 Exportar Excel</button>
-        <button class="btn btn-danger btn-rounded" onclick="descargarPDF()">📄 Exportar PDF</button>
+    <div class="col-md-3">
+        <label>Mes</label>
+        <select class="form-control" name="mes">
+            <option>Enero</option>
+            <option>Febrero</option>
+            <option>Marzo</option>
+            <option>Abril</option>
+            <option>Mayo</option>
+            <option>Junio</option>
+            <option>Julio</option>
+            <option>Agosto</option>
+            <option>Septiembre</option>
+            <option>Octubre</option>
+            <option>Noviembre</option>
+            <option>Diciembre</option>
+        </select>
     </div>
+</div>
+
+<h5>Leche por día (Litros)</h5>
+
+<div class="row mb-3">
+    <div class="col-md-2">
+        <label>Lunes</label>
+        <input type="number" class="form-control dia" name="lunes" value="0">
+    </div>
+
+    <div class="col-md-2">
+        <label>Martes</label>
+        <input type="number" class="form-control dia" name="martes" value="0">
+    </div>
+
+    <div class="col-md-2">
+        <label>Miércoles</label>
+        <input type="number" class="form-control dia" name="miercoles" value="0">
+    </div>
+
+    <div class="col-md-2">
+        <label>Jueves</label>
+        <input type="number" class="form-control dia" name="jueves" value="0">
+    </div>
+
+    <div class="col-md-2">
+        <label>Viernes</label>
+        <input type="number" class="form-control dia" name="viernes" value="0">
+    </div>
+
+    <div class="col-md-2">
+        <label>Sábado</label>
+        <input type="number" class="form-control dia" name="sabado" value="0">
+    </div>
+
+    <div class="col-md-2 mt-2">
+        <label>Domingo</label>
+        <input type="number" class="form-control dia" name="domingo" value="0">
+    </div>
+</div>
+
+<div class="mb-3">
+    <label>Total Litros Semanales</label>
+    <input type="number" class="form-control" name="total_semanal" id="total" readonly>
+</div>
+
+<button type="submit" class="btn btn-success btn-rounded">
+💾 Guardar en Base de Datos
+</button>
+
+</form>
 
 </div>
 
