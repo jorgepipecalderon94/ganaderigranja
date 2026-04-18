@@ -1,7 +1,7 @@
 <?php
-$conexion = new mysqli("localhost", "root", "", "granja_ganadera");
+$conn = new mysqli("localhost", "root", "", "granja_ganadera");
 
-if ($conexion->connect_error) {
-    die("Error de conexión: " . $conexion->connect_error);
+if ($conn->connect_error) {
+    die("Error de conexión: " . $conn->connect_error);
 }
 ?>

@@ -66,7 +66,7 @@
             </div>
 
             <div class="col-md-4 mb-3">
-                <label>N° animales tratados</label>
+                <label>numero de animales</label>
                 <input id="cantidad" type="number" class="form-control" min="1">
             </div>
 
@@ -116,29 +116,65 @@ let registros = JSON.parse(localStorage.getItem("regSanitario")) || [];
 let editIndex = null;
 
 mostrarTabla();
-
 function agregar() {
 
-    let fecha = document.getElementById("fecha").value.trim();
-    let evento = document.getElementById("evento").value.trim();
-    let producto = document.getElementById("producto").value.trim();
-    let dosis = document.getElementById("dosis").value.trim();
-    let cantidad = document.getElementById("cantidad").value.trim();
-    let observaciones = document.getElementById("observaciones").value.trim();
+    let fecha = document.getElementById("fecha").value;
+    let evento = document.getElementById("evento").value;
+    let producto = document.getElementById("producto").value;
+    let dosis = document.getElementById("dosis").value;
+    let cantidad = document.getElementById("cantidad").value;
+    let observaciones = document.getElementById("observaciones").value;
 
     if (!fecha || !evento || !producto || !dosis || !cantidad || !observaciones) {
         alert("⚠️ Debe llenar TODOS los campos");
         return;
     }
 
-    registros.push({ fecha, evento, producto, dosis, cantidad, observaciones });
-    localStorage.setItem("regSanitario", JSON.stringify(registros));
+    fetch("guardar_evento.php", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/x-www-form-urlencoded"
+        },
+        body:
+        "fecha=" + encodeURIComponent(fecha) +
+        "&evento=" + encodeURIComponent(evento) +
+        "&producto=" + encodeURIComponent(producto) +
+        "&dosis=" + encodeURIComponent(dosis) +
+        "&cantidad=" + encodeURIComponent(cantidad) +
+        "&observaciones=" + encodeURIComponent(observaciones)
+    })
+    .then(res => res.text())
+    .then(res => {
+        console.log(res); //  VER ERROR REAL
 
-    alert("✅ Registro guardado");
-
-    mostrarTabla();
-    limpiar();
+        if(res.trim() == "ok"){
+            alert("✅ Guardado en la base de datos");
+            location.reload(); //  RECARGA TODO
+        } else {
+            alert("❌ Error: " + res);
+        }
+    });
 }
+
+    // Enviar datos a PHP
+    fetch("guardar_evento.php", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/x-www-form-urlencoded"
+        },
+        body: `fecha=${fecha}&evento=${evento}&producto=${producto}&dosis=${dosis}&cantidad=${cantidad}&observaciones=${observaciones}`
+    })
+    .then(res => res.text())
+    .then(res => {
+        if(res == "ok"){
+            alert("✅ Guardado en la base de datos");
+            limpiar();
+        } else {
+            alert("❌ Error al guardar");
+        }
+    });
+
+
 
 function mostrarTabla() {
     let html = "";

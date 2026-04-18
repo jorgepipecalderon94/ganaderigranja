@@ -19,137 +19,160 @@ body{ background:#eef2f7; }
 
 <div class="container">
 
-    <h2 class="text-center mb-4">🐮 FORMATO DE REGISTRO DE CRÍAS DEL GANADO BOVINO <br> GRANJA SAN FRANCISCO DE ASÍS</h2>
+<h2 class="text-center mb-4">🐮 REGISTRO DE CRÍAS</h2>
 
-    <!-- BOTÓN REGRESAR -->
-    <button class="btn btn-secondary btn-rounded mb-3" onclick="regresarMenu()">
-        ⬅ Regresar al menú
-    </button>
+<div class="card p-4 shadow">
 
-    <!-- FORMULARIO -->
-    <div class="card p-4 shadow">
+<h4>Formulario</h4>
 
-        <h4 class="mb-3">Formulario de Registro</h4>
+<!-- FORMULARIO CORREGIDO -->
+<form id="formCrias">
 
-        <form id="formCrias">
-
-            <div class="row mb-3">
-                <div class="col-md-3">
-                    <label>N° cría o nombre</label>
-                    <input type="text" id="nombre" class="form-control">
-                </div>
-
-                <div class="col-md-3">
-                    <label>Fecha de nacimiento</label>
-                    <input type="date" id="fechaNacimiento" class="form-control">
-                </div>
-
-                <div class="col-md-2">
-                    <label>Sexo</label>
-                    <select id="sexo" class="form-control">
-                        <option value="M">M</option>
-                        <option value="H">H</option>
-                    </select>
-                </div>
-
-                <div class="col-md-2">
-                    <label>N°/Nombre madre</label>
-                    <input type="text" id="madre" class="form-control">
-                </div>
-
-                <div class="col-md-2">
-                    <label>N°/Nombre padre</label>
-                    <input type="text" id="padre" class="form-control">
-                </div>
-            </div>
-
-            <div class="row mb-3">
-                <div class="col-md-3">
-                    <label>Peso al nacimiento (kg)</label>
-                    <input type="number" id="pesoNacimiento" class="form-control">
-                </div>
-
-                <div class="col-md-3">
-                    <label>Fecha de destete</label>
-                    <input type="date" id="fechaDestete" class="form-control">
-                </div>
-
-                <div class="col-md-3">
-                    <label>Peso al destete (kg)</label>
-                    <input type="number" id="pesoDestete" class="form-control">
-                </div>
-
-                <div class="col-md-3">
-                    <label>Observaciones</label>
-                    <input type="text" id="observaciones" class="form-control">
-                </div>
-            </div>
-
-            <button type="button" class="btn btn-success btn-rounded mt-3" onclick="agregarRegistro()">➕ Agregar Registro</button>
-
-        </form>
-
+<div class="row mb-3">
+    <div class="col-md-3">
+        <label>Nombre</label>
+        <input type="text" id="nombre" name="nombre" class="form-control">
     </div>
 
-    <!-- TABLA -->
-    <div class="card mt-4 p-4 shadow">
-
-        <h4>Registros Guardados</h4>
-
-        <table class="table mt-3" id="tablaCrias">
-            <thead>
-                <tr>
-                    <th>Nombre cría</th>
-                    <th>Fecha nacimiento</th>
-                    <th>Sexo</th>
-                    <th>Madre</th>
-                    <th>Padre</th>
-                    <th>Peso nacimiento</th>
-                    <th>Fecha destete</th>
-                    <th>Peso destete</th>
-                    <th>Observaciones</th>
-                </tr>
-            </thead>
-            <tbody></tbody>
-        </table>
-
-        <button class="btn btn-primary btn-rounded me-2" onclick="descargarExcel()">📊 Exportar Excel</button>
-        <button class="btn btn-danger btn-rounded" onclick="descargarPDF()">📄 Exportar PDF</button>
-
+    <div class="col-md-3">
+        <label>Fecha nacimiento</label>
+        <input type="date" id="fechaNacimiento" name="fecha_nacimiento" class="form-control">
     </div>
+
+    <div class="col-md-2">
+        <label>Sexo</label>
+        <select id="sexo" name="sexo" class="form-control">
+            <option value="M">M</option>
+            <option value="H">H</option>
+        </select>
+    </div>
+
+    <div class="col-md-2">
+        <label>Madre</label>
+        <input type="text" id="madre" name="madre" class="form-control">
+    </div>
+
+    <div class="col-md-2">
+        <label>Padre</label>
+        <input type="text" id="padre" name="padre" class="form-control">
+    </div>
+</div>
+
+<div class="row mb-3">
+    <div class="col-md-3">
+        <label>Peso nacimiento</label>
+        <input type="number" id="pesoNacimiento" name="peso_nacimiento" class="form-control">
+    </div>
+
+    <div class="col-md-3">
+        <label>Fecha destete</label>
+        <input type="date" id="fechaDestete" name="fecha_destete" class="form-control">
+    </div>
+
+    <div class="col-md-3">
+        <label>Peso destete</label>
+        <input type="number" id="pesoDestete" name="peso_destete" class="form-control">
+    </div>
+
+    <div class="col-md-3">
+        <label>Observaciones</label>
+        <input type="text" id="observaciones" name="observaciones" class="form-control">
+    </div>
+</div>
+
+<button type="button" class="btn btn-success" onclick="agregarRegistro()">
+Guardar
+</button>
+
+</form>
 
 </div>
 
-<!-- LIBRERÍAS -->
-<script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<!-- TABLA -->
+<div class="card mt-4 p-4 shadow">
+<h4>Registros</h4>
 
+<table class="table" id="tablaCrias">
+<thead>
+<tr>
+<th>Nombre</th>
+<th>Fecha</th>
+<th>Sexo</th>
+<th>Madre</th>
+<th>Padre</th>
+<th>Peso N</th>
+<th>Fecha D</th>
+<th>Peso D</th>
+<th>Obs</th>
+</tr>
+</thead>
+<tbody></tbody>
+</table>
 
+</div>
 
+</div>
 
-// AGREGAR REGISTRO
-function agregarRegistro() {
+<script>
+function agregarRegistro(){
 
-    const tabla = document.querySelector("#tablaCrias tbody");
-    const fila = document.createElement("tr");
+let nombre = document.getElementById("nombre").value;
+let fecha = document.getElementById("fechaNacimiento").value;
+let sexo = document.getElementById("sexo").value;
 
-    fila.innerHTML = `
-        <td>${nombre.value}</td>
-        <td>${fechaNacimiento.value}</td>
-        <td>${sexo.value}</td>
-        <td>${madre.value}</td>
-        <td>${padre.value}</td>
-        <td>${pesoNacimiento.value}</td>
-        <td>${fechaDestete.value}</td>
-        <td>${pesoDestete.value}</td>
-        <td>${observaciones.value}</td>
-    `;
-
-    tabla.appendChild(fila);
-
-    document.getElementById("formCrias").reset();
+if(nombre == "" || fecha == "" || sexo == ""){
+    alert("⚠️ Complete los campos obligatorios");
+    return;
 }
 
+let datos = new FormData();
+
+datos.append("nombre", nombre);
+datos.append("fecha_nacimiento", fecha);
+datos.append("sexo", sexo);
+datos.append("madre", document.getElementById("madre").value);
+datos.append("padre", document.getElementById("padre").value);
+datos.append("peso_nacimiento", document.getElementById("pesoNacimiento").value || 0);
+datos.append("fecha_destete", document.getElementById("fechaDestete").value);
+datos.append("peso_destete", document.getElementById("pesoDestete").value || 0);
+datos.append("observaciones", document.getElementById("observaciones").value);
+
+fetch("guardar_crias.php", {
+method:"POST",
+body:datos
+})
+.then(r=>r.text())
+.then(r=>{
+console.log("RESPUESTA:", r);
+
+if(r.trim()=="ok"){
+alert("✅ Guardado correctamente");
+
+let tabla = document.querySelector("#tablaCrias tbody");
+
+let fila = `
+<tr>
+<td>${nombre}</td>
+<td>${fecha}</td>
+<td>${sexo}</td>
+<td>${document.getElementById("madre").value}</td>
+<td>${document.getElementById("padre").value}</td>
+<td>${document.getElementById("pesoNacimiento").value}</td>
+<td>${document.getElementById("fechaDestete").value}</td>
+<td>${document.getElementById("pesoDestete").value}</td>
+<td>${document.getElementById("observaciones").value}</td>
+</tr>
+`;
+
+tabla.innerHTML += fila;
+
+document.getElementById("formCrias").reset();
+
+}else{
+alert("❌ Error: " + r);
+}
+});
+}
 // EXPORTAR EXCEL
 function descargarExcel(){
     const tabla = document.getElementById("tablaCrias");

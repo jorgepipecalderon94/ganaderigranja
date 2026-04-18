@@ -23,7 +23,7 @@ body{
 <body class="p-4">
 
 <div class="container">
-    <h2 class="text-center mb-4">🐄 Registro Reproductivo del Ganado</h2>
+    <h2 class="text-center mb-4">Registro Reproductivo del Ganado</h2>
 
     <div class="card p-4 shadow">
         <h4 class="mb-3">Formulario</h4>
@@ -131,8 +131,8 @@ body{
             <tbody></tbody>
         </table>
 
-        <button class="btn btn-success btn-rounded me-2" onclick="descargarExcel()">📊 Exportar Excel</button>
-        <button class="btn btn-danger btn-rounded" onclick="descargarPDF()">📄 Exportar PDF</button>
+        <button class="btn btn-success btn-rounded me-2" onclick="descargarExcel()"> Exportar Excel</button>
+        <button class="btn btn-danger btn-rounded" onclick="descargarPDF()"> Exportar PDF</button>
     </div>
 </div>
 
@@ -142,30 +142,57 @@ body{
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
 <script>
-// Agregar registro
-function agregarRegistro() {
-    const tabla = document.querySelector("#tablaRegistros tbody");
-    const fila = document.createElement("tr");
+function agregarRegistro(){
 
-    fila.innerHTML = `
-        <td>${vaca.value}</td>
-        <td>${raza.value}</td>
-        <td>${ultimoParto.value}</td>
-        <td>${servicio.value}</td>
-        <td>${fechaServicio.value}</td>
-        <td>${toro.value}</td>
-        <td>${resultado.value}</td>
-        <td>${fechaPartoProb.value}</td>
-        <td>${partoReal.value}</td>
-        <td>${criasM.value}</td>
-        <td>${criasH.value}</td>
-        <td>${observaciones.value}</td>
-    `;
-    tabla.appendChild(fila);
+let datos = new FormData();
 
-    document.getElementById("formReproductivo").reset();
+datos.append("id_animal", document.getElementById("vaca").value);
+datos.append("tipo_servicio", document.getElementById("servicio").value);
+datos.append("fecha", document.getElementById("fechaServicio").value);
+datos.append("toro", document.getElementById("toro").value);
+datos.append("inseminador", document.getElementById("inseminador").value);
+datos.append("resultados", document.getElementById("resultado").value);
+
+fetch("guardar_reproductivo.php", {
+method:"POST",
+body:datos
+})
+.then(r=>r.text())
+.then(r=>{
+
+if(r.trim()=="ok"){
+
+alert(" Guardado en base de datos");
+
+const tabla = document.querySelector("#tablaRegistros tbody");
+
+const fila = `
+<tr>
+<td>${vaca.value}</td>
+<td>${raza.value}</td>
+<td>${ultimoParto.value}</td>
+<td>${servicio.value}</td>
+<td>${fechaServicio.value}</td>
+<td>${toro.value}</td>
+<td>${resultado.value}</td>
+<td>${fechaPartoProb.value}</td>
+<td>${partoReal.value}</td>
+<td>${criasM.value}</td>
+<td>${criasH.value}</td>
+<td>${observaciones.value}</td>
+</tr>
+`;
+
+tabla.innerHTML += fila;
+
+document.getElementById("formReproductivo").reset();
+
+}else{
+alert(" Error: " + r);
 }
 
+});
+}
 // Exportar a Excel
 function descargarExcel(){
     const tabla = document.getElementById("tablaRegistros");

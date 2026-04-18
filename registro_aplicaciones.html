@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Aplicaciones Ganado</title>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<style>
+body{ background:#eef2f7; }
+.card{ border-radius:15px; }
+.table thead{ background:#198754; color:white; }
+</style>
+</head>
+
+<body class="p-4">
+
+<div class="container">
+
+<h2 class="text-center mb-4">💉 Aplicaciones al Ganado</h2>
+
+<div class="card p-4 shadow">
+
+<h4>Formulario</h4>
+
+<form id="formAplicacion">
+
+<div class="row mb-3">
+    <div class="col-md-3">
+        <label>Fecha</label>
+        <input type="date" id="fecha" class="form-control">
+    </div>
+    <div class="col-md-3">
+        <label>Producto</label>
+        <input type="text" id="producto" class="form-control">
+    </div>
+    <div class="col-md-3">
+        <label>Laboratorio</label>
+        <input type="text" id="laboratorio" class="form-control">
+    </div>
+    <div class="col-md-3">
+        <label>Lote</label>
+        <input type="text" id="lote" class="form-control">
+    </div>
+</div>
+
+<div class="row mb-3">
+    <div class="col-md-3">
+        <label>Dosis</label>
+        <input type="text" id="dosis" class="form-control">
+    </div>
+    <div class="col-md-2">
+        <label>Vía</label>
+        <select id="via" class="form-control">
+            <option>IM</option>
+            <option>SC</option>
+            <option>VO</option>
+        </select>
+    </div>
+    <div class="col-md-2">
+        <label>Retiro leche</label>
+        <input type="number" id="leche" class="form-control">
+    </div>
+    <div class="col-md-2">
+        <label>Retiro carne</label>
+        <input type="number" id="carne" class="form-control">
+    </div>
+    <div class="col-md-3">
+        <label>Animales tratados</label>
+        <input type="number" id="animales" class="form-control">
+    </div>
+</div>
+
+<div class="mb-3">
+    <label>Responsable</label>
+    <input type="text" id="responsable" class="form-control">
+</div>
+
+<button type="button" class="btn btn-success" onclick="guardar()">Guardar</button>
+
+</form>
+
+</div>
+
+<div class="card mt-4 p-4 shadow">
+<h4>Registros</h4>
+
+<table class="table" id="tabla">
+<thead>
+<tr>
+<th>Fecha</th>
+<th>Producto</th>
+<th>Lab</th>
+<th>Lote</th>
+<th>Dosis</th>
+<th>Vía</th>
+<th>Leche</th>
+<th>Carne</th>
+<th>Animales</th>
+<th>Responsable</th>
+</tr>
+</thead>
+<tbody></tbody>
+</table>
+
+</div>
+
+</div>
+
+<script>
+
+function guardar(){
+
+let datos = new FormData();
+
+datos.append("fecha", fecha.value);
+datos.append("producto", producto.value);
+datos.append("laboratorio", laboratorio.value);
+datos.append("lote", lote.value);
+datos.append("dosis", dosis.value);
+datos.append("via", via.value);
+datos.append("leche", leche.value);
+datos.append("carne", carne.value);
+datos.append("animales", animales.value);
+datos.append("responsable", responsable.value);
+
+fetch("guardar_aplicacion.php", {
+method:"POST",
+body:datos
+})
+.then(r=>r.text())
+.then(r=>{
+
+if(r.trim()=="ok"){
+
+alert("Guardado en BD");
+
+let fila = `
+<tr>
+<td>${fecha.value}</td>
+<td>${producto.value}</td>
+<td>${laboratorio.value}</td>
+<td>${lote.value}</td>
+<td>${dosis.value}</td>
+<td>${via.value}</td>
+<td>${leche.value}</td>
+<td>${carne.value}</td>
+<td>${animales.value}</td>
+<td>${responsable.value}</td>
+</tr>
+`;
+
+document.querySelector("#tabla tbody").innerHTML += fila;
+
+document.getElementById("formAplicacion").reset();
+
+}else{
+alert("❌ "+r);
+}
+
+});
+
+}
+
+</script>
+
+</body>
+</html>

@@ -16,11 +16,11 @@ $passwordHash = password_hash($password, PASSWORD_DEFAULT);
 $sql = "INSERT INTO registro_usuario (Nombre, Apellido, Documento, Correo, Contraseña, Rol)
 VALUES ('$nombre', '$apellido', '$documento', '$correo', '$passwordHash', '$rol')";
 
-if ($conexion->query($sql) === TRUE) {
-    header("Location: ingreso_sistema.html"); // REDIRIGE AL LOGIN
+if ($conn->query($sql) === TRUE) {
+    header("Location: ingreso_sistema.html");
 } else {
-    echo "Error: " . $conexion->error;
+    echo "Error: " . $conn->error;
 }
 
-$conexion->close();
+$conn->close();
 ?>

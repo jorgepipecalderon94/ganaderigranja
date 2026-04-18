@@ -16,19 +16,18 @@
 
 <h3 class="text-center">Ingreso al Sistema</h3>
 
-<form id="formLogin">
+<form action="login.php" method="POST">
 
 <!-- CORREO -->
 <div class="mb-3">
 <label>Correo</label>
-<input type="email" class="form-control" id="correo" required>
+<input type="email" name="correo" class="form-control" required>
 </div>
 
 <!-- CONTRASEÑA -->
 <div class="mb-3">
 <label>Contraseña</label>
-<input type="password" class="form-control" id="password"
-required>
+<input type="password" name="password" id="password" class="form-control" required>
 </div>
 
 <!-- MOSTRAR CONTRASEÑA -->
@@ -57,8 +56,6 @@ Registrarse
 </div>
 
 <script>
-
-// MOSTRAR CONTRASEÑA
 function mostrarPassword(){
   let input = document.getElementById("password");
   if(input.type === "password"){
@@ -67,47 +64,6 @@ function mostrarPassword(){
     input.type = "password";
   }
 }
-
-// LOGIN
-document.getElementById("formLogin").addEventListener("submit", function(e){
-
-e.preventDefault();
-
-let correo = document.getElementById("correo").value.trim();
-let password = document.getElementById("password").value.trim();
-
-if(correo === "" || password === ""){
-    alert("⚠️ Debe llenar todos los campos");
-    return;
-}
-
-let usuarios = JSON.parse(localStorage.getItem("usuarios")) || [];
-
-let usuarioEncontrado = usuarios.find(u => 
-    u.correo === correo && u.password === password
-);
-
-if(usuarioEncontrado){
-
-localStorage.setItem("rol", usuarioEncontrado.rol);
-
-// REDIRECCIÓN SEGÚN ROL
-if(usuarioEncontrado.rol === "profesor"){
-    window.location.href = "menu_profesor.html";
-}
-else if(usuarioEncontrado.rol === "operario"){
-    window.location.href = "menu_operario.html";
-}
-else if(usuarioEncontrado.rol === "estudiante"){
-    window.location.href = "menu_estudiante.html";
-}
-
-}else{
-    alert(" Usuario no registrado o datos incorrectos");
-}
-
-});
-
 </script>
 
 </body>

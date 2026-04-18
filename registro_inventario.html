@@ -139,31 +139,65 @@ function calcularTotal() {
 }
 
 // Agregar registro a la tabla
-function agregarInventario() {
-    calcularTotal();
+function agregarInventario(){
 
-    const tabla = document.querySelector("#tablaInventario tbody");
-    const fila = document.createElement("tr");
+calcularTotal();
 
-    fila.innerHTML = `
-        <td>${fecha.value}</td>
-        <td>${produccion.value}</td>
-        <td>${hembras.value}</td>
-        <td>${machos.value}</td>
-        <td>${destetos.value}</td>
-        <td>${descanso.value}</td>
-        <td>${horra.value}</td>
-        <td>${vientre.value}</td>
-        <td>${levante.value}</td>
-        <td>${toros.value}</td>
-        <td>${total.value}</td>
-        <td>${observaciones.value}</td>
-    `;
+let datos = new FormData();
 
-    tabla.appendChild(fila);
+datos.append("fecha", fecha.value);
+datos.append("produccion", produccion.value);
+datos.append("hembras", hembras.value);
+datos.append("machos", machos.value);
+datos.append("destetos", destetos.value);
+datos.append("descanso", descanso.value);
+datos.append("horra", horra.value);
+datos.append("vientre", vientre.value);
+datos.append("levante", levante.value);
+datos.append("toros", toros.value);
+datos.append("total", total.value);
+datos.append("observaciones", observaciones.value);
 
-    document.getElementById("formInventario").reset();
-    document.getElementById("total").value = 0;
+fetch("guardar_inventario.php", {
+method:"POST",
+body:datos
+})
+.then(r=>r.text())
+.then(r=>{
+
+if(r.trim()=="ok"){
+
+alert(" Guardado en base de datos");
+
+const tabla = document.querySelector("#tablaInventario tbody");
+
+const fila = `
+<tr>
+<td>${fecha.value}</td>
+<td>${produccion.value}</td>
+<td>${hembras.value}</td>
+<td>${machos.value}</td>
+<td>${destetos.value}</td>
+<td>${descanso.value}</td>
+<td>${horra.value}</td>
+<td>${vientre.value}</td>
+<td>${levante.value}</td>
+<td>${toros.value}</td>
+<td>${total.value}</td>
+<td>${observaciones.value}</td>
+</tr>
+`;
+
+tabla.innerHTML += fila;
+
+document.getElementById("formInventario").reset();
+total.value = 0;
+
+}else{
+alert(" Error: " + r);
+}
+
+});
 }
 
 // Exportar a Excel

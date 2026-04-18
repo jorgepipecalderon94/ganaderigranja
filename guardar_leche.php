@@ -1,13 +1,16 @@
 <?php
 include("conexion.php");
 
-// EVITA ERROR SI ENTRAN DIRECTO
+// 🔥 SOLUCIÓN CLAVE (NO CAMBIA NADA DE TU SISTEMA)
+$conexion = $conn;
+
+// EVITA ACCESO DIRECTO
 if($_SERVER["REQUEST_METHOD"] != "POST"){
     echo "Acceso no permitido";
     exit();
 }
 
-// CAPTURA
+// CAPTURA DATOS
 $vaca = $_POST['numero_devaca'] ?? "";
 $mes = $_POST['mes'] ?? "";
 
@@ -27,12 +30,14 @@ $sql = "INSERT INTO venta_leche
 VALUES 
 ('$vaca','$mes','$lunes','$martes','$miercoles','$jueves','$viernes','$sabado','$domingo','$total')";
 
+// EJECUTAR
 if($conexion->query($sql)){
     echo "<script>
-    alert('Guardado correctamente');
+    alert('✅ Guardado correctamente');
     window.location='registro_leche_diaria.html';
     </script>";
 } else {
     echo "Error: " . $conexion->error;
 }
+?>
 ?>
