@@ -17,6 +17,15 @@ body{ background:#eef2f7; }
 
 <body class="p-4">
 
+<!-- 🔹 BOTONES ARRIBA (CORRECTO) -->
+<div class="d-flex justify-content-between mb-3">
+    <div>
+        <button class="btn btn-primary" onclick="volver()">Volver</button>
+        <button class="btn btn-danger" onclick="cerrar()">Cerrar sesión</button>
+    </div>
+    <h4>Medicamentos Veterinarios</h4>
+</div>
+
 <div class="container">
 
     <h2 class="text-center mb-4">🐄 FORMATO DE REGISTRO DE APLICACIÓN DE MEDICAMENTOS VETERINARIOS</h2>
@@ -54,7 +63,7 @@ body{ background:#eef2f7; }
 
                 <div class="col-md-3">
                     <label>Dosis Aplicada</label>
-                    <input type="text" id="dosis" class="form-control" placeholder="Ej: 10CC/vaca">
+                    <input type="text" id="dosis" class="form-control">
                 </div>
 
                 <div class="col-md-3">
@@ -68,12 +77,12 @@ body{ background:#eef2f7; }
 
                 <div class="col-md-3">
                     <label>Retiro en Leche (días)</label>
-                    <input type="number" id="retiroLeche" min="0" value="0" class="form-control">
+                    <input type="number" id="retiroLeche" class="form-control" value="0">
                 </div>
 
                 <div class="col-md-3">
                     <label>Retiro en Carne (días)</label>
-                    <input type="number" id="retiroCarne" min="0" value="0" class="form-control">
+                    <input type="number" id="retiroCarne" class="form-control" value="0">
                 </div>
 
             </div>
@@ -81,7 +90,7 @@ body{ background:#eef2f7; }
             <div class="row mb-3">
                 <div class="col-md-3">
                     <label>N° Animales Tratados</label>
-                    <input type="number" id="animales" min="0" class="form-control">
+                    <input type="number" id="animales" class="form-control">
                 </div>
 
                 <div class="col-md-6">
@@ -132,6 +141,15 @@ body{ background:#eef2f7; }
 
 <script>
 
+// 🔹 BOTONES FUNCIONANDO
+function volver(){
+    window.location = "menu_estudiante.html";
+}
+
+function cerrar(){
+    window.location = "ingreso_sistema.html";
+}
+
 // Agregar registro
 function agregarRegistro() {
 
@@ -152,18 +170,17 @@ function agregarRegistro() {
     `;
 
     tabla.appendChild(fila);
-
     document.getElementById("formMedicamentos").reset();
 }
 
-// Descargar Excel
+// Excel
 function descargarExcel(){
     const tabla = document.getElementById("tablaMedicamentos");
     const wb = XLSX.utils.table_to_book(tabla);
     XLSX.writeFile(wb, "Registro_Medicamentos.xlsx");
 }
 
-// Descargar PDF
+// PDF
 function descargarPDF(){
     const { jsPDF } = window.jspdf;
     const doc = new jsPDF({ orientation: "landscape" });

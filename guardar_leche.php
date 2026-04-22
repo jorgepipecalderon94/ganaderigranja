@@ -1,7 +1,7 @@
 <?php
 include("conexion.php");
 
-// 🔥 SOLUCIÓN CLAVE (NO CAMBIA NADA DE TU SISTEMA)
+//  SOLUCIÓN CLAVE (NO CAMBIA NADA DE TU SISTEMA)
 $conexion = $conn;
 
 // EVITA ACCESO DIRECTO

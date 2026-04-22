@@ -17,6 +17,7 @@
 </head>
 
 <body>
+    
 
 <!-- ENCABEZADO -->
 <div class="bg-success text-white text-center py-3">
@@ -259,6 +260,11 @@ async function exportarPDF() {
         doc.text(`Obs: ${r.observaciones}`, 10, y);
         y += 15;
     });
+
+    // BOTONES
+function volver(){ window.location="menu_estudiante.html"; }
+function cerrar(){ window.location="ingreso_sistema.html"; }
+
 
     doc.save("registro_sanitario.pdf");
 }
