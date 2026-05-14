@@ -1,42 +1,103 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Menú_Estudiante</title>
-<link href="css/bootstrap.min.css" rel="stylesheet">
+
+<title>Menú menu_estudiante</title>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<style>
+
+body{
+    background:#f4f6f9;
+}
+
+.logo{
+    width:120px;
+    display:block;
+    margin:auto;
+    margin-top:20px;
+}
+
+iframe{
+    background:white;
+    border-radius:15px;
+}
+
+</style>
+
 </head>
 
 <body>
 
-<img src="imagen/logo.png"/>
+<!-- LOGO -->
+<img src="imagen/logo.png" class="logo">
 
-<div class="bg-success text-white text-center py-3">
-<h5>INSTITUCIÓN EDUCATIVA AGROTÉCNICO MIXTO</h5>
-<p>NIT: 800122064-7 | Municipio: Belén de los Andaquíes // </p>
-<p><strong>Desarrollado por ingeniero:</strong> Jorge Calderón Martínez</p>
+<!-- ENCABEZADO -->
+<div class="bg-success text-white text-center py-3 mt-3">
+
+<h5>
+INSTITUCIÓN EDUCATIVA AGROTÉCNICO MIXTO
+</h5>
+
+<p>
+NIT: 800122064-7 | Municipio: Belén de los Andaquíes
+</p>
+
 </div>
 
+<!-- TITULO -->
 <div class="bg-success text-white text-center py-3">
-<h4>Sistema de Gestión Ganadera</h4>
-<p>Menú del Estudiante</p>
+
+<h4>
+Sistema de Gestión Ganadera
+</h4>
+
+<p>
+Menú Profesor / Administrador
+</p>
+
 </div>
 
+<!-- NAVBAR -->
 <nav class="navbar navbar-dark bg-primary">
+
 <div class="container-fluid">
-<button class="btn btn-outline-light" data-bs-toggle="offcanvas" data-bs-target="#menuLateral">
+
+<button 
+class="btn btn-outline-light"
+data-bs-toggle="offcanvas"
+data-bs-target="#menuLateral">
+
 ☰ Menú
+
 </button>
-<span class="navbar-brand">Inicio</span>
+
+<span class="navbar-brand">
+
+Bienvenido Profesor
+
+</span>
+
 </div>
+
 </nav>
 
-<!-- MENÚ LATERAL -->
+<!-- MENU LATERAL -->
 <div class="offcanvas offcanvas-start" id="menuLateral">
 
 <div class="offcanvas-header">
-<h5>Opciones Estudiante</h5>
+
+<h5>
+Opciones Profesor
+</h5>
+
 <button class="btn-close" data-bs-dismiss="offcanvas"></button>
+
 </div>
 
 <div class="offcanvas-body">
@@ -44,32 +105,107 @@
 <ul class="nav flex-column">
 
 <li class="nav-item">
-<a class="nav-link" href="registro_reproductivo.html">Consultar Registro Reproductivo</a>
-</li>
-    
-
-<li class="nav-item">
-<a class="nav-link" href="registro_inventario.html">Consultar Inventario</a>
+<a class="nav-link" href="#" onclick="cargarPagina('registro_usuario.html')">
+Registrar usuario
+</a>
 </li>
 
 <li class="nav-item">
-<a class="nav-link" href="registro_leche_diaria.html">Consultar Leche Diaria</a>
+<a class="nav-link" href="#" onclick="cargarPagina('panel_profesor.php')">
+Gestionar usuarios
+</a>
 </li>
 
 <li class="nav-item">
-<a class="nav-link" href="leche.html">Consultar Leche por Mes</a>
+<a class="nav-link" href="#" onclick="cargarPagina('registro_inventario.html')">
+Inventario ganado
+</a>
 </li>
 
 <li class="nav-item">
-<a class="nav-link" href="ingreso_sistema.html">Cerrar sesión</a>
+<a class="nav-link" href="#" onclick="cargarPagina('registro_reproductivo.html')">
+Registro reproductivo
+</a>
+</li>
+
+<li class="nav-item">
+<a class="nav-link" href="#" onclick="cargarPagina('registro_sanitario.html')">
+Evento sanitario
+</a>
+</li>
+
+<li class="nav-item">
+<a class="nav-link" href="#" onclick="cargarPagina('registro_crias.html')">
+Registrar crías
+</a>
+</li>
+
+<li class="nav-item">
+<a class="nav-link" href="#" onclick="cargarPagina('registro_medicamentos.html')">
+Registrar medicamentos
+</a>
+</li>
+
+<li class="nav-item">
+<a class="nav-link" href="#" onclick="cargarPagina('leche.html')">
+Consultar leche por mes
+</a>
+</li>
+
+<li class="nav-item">
+<a class="nav-link" href="#" onclick="cargarPagina('registro_leche_diaria.html')">
+Registro leche diaria
+</a>
+</li>
+
+<li class="nav-item">
+<a class="nav-link text-danger" href="ingreso_sistema.html">
+Cerrar sesión
+</a>
 </li>
 
 </ul>
 
 </div>
+
 </div>
 
-<script src="js/bootstrap.bundle.min.js"></script>
+<!-- CONTENIDO -->
+<div class="container mt-4">
+
+<div class="card shadow p-4">
+
+<h2 class="text-center">
+Bienvenido al Panel del Profesor
+</h2>
+
+<p class="text-center">
+Seleccione una opción del menú lateral.
+</p>
+
+<iframe
+id="contenido"
+src=""
+width="100%"
+height="700px"
+style="border:none;">
+</iframe>
+
+</div>
+
+</div>
+
+<script>
+
+function cargarPagina(url){
+
+    document.getElementById("contenido").src = url;
+
+}
+
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
 </body>
 </html>
