@@ -1,43 +1,137 @@
 <?php
+session_start();
+
 include("conexion.php");
 
-//  SOLUCIÓN CLAVE (NO CAMBIA NADA DE TU SISTEMA)
 $conexion = $conn;
 
-// EVITA ACCESO DIRECTO
-if($_SERVER["REQUEST_METHOD"] != "POST"){
-    echo "Acceso no permitido";
+/* =========================
+   VALIDAR SESIÓN
+========================= */
+if(!isset($_SESSION['usuario']) || !isset($_SESSION['rol'])){
+
+    echo "<script>
+    alert('Sesión no iniciada');
+    window.location='ingreso_sistema.html';
+    </script>";
+
     exit();
 }
 
-// CAPTURA DATOS
-$vaca = $_POST['numero_devaca'] ?? "";
-$mes = $_POST['mes'] ?? "";
+/* =========================
+   CAPTURAR SESIÓN
+========================= */
+$nombre = $_SESSION['usuario'];
+$rol = $_SESSION['rol'];
 
-$lunes = $_POST['lunes'] ?? 0;
-$martes = $_POST['martes'] ?? 0;
-$miercoles = $_POST['miercoles'] ?? 0;
-$jueves = $_POST['jueves'] ?? 0;
-$viernes = $_POST['viernes'] ?? 0;
-$sabado = $_POST['sabado'] ?? 0;
-$domingo = $_POST['domingo'] ?? 0;
+/* =========================
+   CAPTURAR DATOS
+========================= */
 
-$total = $_POST['total_semanal'] ?? 0;
+$vaca = $_POST['numero_devaca'];
 
-// INSERTAR
-$sql = "INSERT INTO venta_leche 
-(numero_devaca, mes, lunes, martes, miercoles, jueves, viernes, sabado, domingo, total_semanal)
-VALUES 
-('$vaca','$mes','$lunes','$martes','$miercoles','$jueves','$viernes','$sabado','$domingo','$total')";
+$mes = $_POST['mes'];
 
-// EJECUTAR
-if($conexion->query($sql)){
-    echo "<script>
-    alert('✅ Guardado correctamente');
+$semana = $_POST['semana'];
+$fecha_inicio = $_POST['fecha_inicio'];
+$fecha_fin = $_POST['fecha_fin'];
+
+$anio = $_POST['anio'];
+
+$lunes = $_POST['lunes'];
+$martes = $_POST['martes'];
+$miercoles = $_POST['miercoles'];
+$jueves = $_POST['jueves'];
+$viernes = $_POST['viernes'];
+$sabado = $_POST['sabado'];
+$domingo = $_POST['domingo'];
+
+$total = $_POST['total_semanal'];
+
+/* =========================
+   INSERTAR EN BASE DE DATOS
+========================= */
+
+$sql = "INSERT INTO venta_leche
+(
+numero_devaca,
+mes,
+lunes,
+martes,
+miercoles,
+jueves,
+viernes,
+sabado,
+domingo,
+total_semanal,
+semana,
+fecha_inicio,
+fecha_fin,
+anio,
+nombre_usuario,
+rol_usuario
+)
+
+VALUES
+(
+?,
+?,
+?,
+?,
+?,
+?,
+?,
+?,
+?,
+?,
+?,
+?,
+?,
+?,
+?,
+?
+)";
+
+$stmt = $conexion->prepare($sql);
+
+$stmt->bind_param(
+    "ssssssssssssssss",
+
+    $vaca,
+    $mes,
+    $lunes,
+    $martes,
+    $miercoles,
+    $jueves,
+    $viernes,
+    $sabado,
+    $domingo,
+    $total,
+    $semana,
+    $fecha_inicio,
+    $fecha_fin,
+    $anio,
+    $nombre,
+    $rol
+);
+
+/* =========================
+   EJECUTAR
+========================= */
+
+if($stmt->execute()){
+
+    echo "
+    <script>
+    alert('Guardado correctamente');
     window.location='registro_leche_diaria.html';
-    </script>";
-} else {
-    echo "Error: " . $conexion->error;
+    </script>
+    ";
+
+}else{
+
+    echo "Error al guardar: " . $stmt->error;
+
 }
-?>
+
 ?>

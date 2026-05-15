@@ -1,31 +1,24 @@
 <?php
+// 2. Guardar automáticamente el nombre y rol del usuario al insertar
+session_start();
 include("conexion.php");
 
-if(!$conn){
-    die("Error en conexión");
-}
+$nombre_usuario = $_SESSION['usuario'];
+$rol_usuario = $_SESSION['rol'];
 
-$result = $conn->query("SELECT * FROM produccion_leche ORDER BY id DESC");
+// Ejemplo de inserción
+$sql = "INSERT INTO produccion_leche
+(
+    enero, febrero, marzo, abril, mayo, junio,
+    julio, agosto, septiembre, octubre, noviembre, diciembre,
+    total, fecha_registro, nombre_usuario, rol_usuario
+)
+VALUES
+(
+    '$enero', '$febrero', '$marzo', '$abril', '$mayo', '$junio',
+    '$julio', '$agosto', '$septiembre', '$octubre', '$noviembre', '$diciembre',
+    '$total', NOW(), '$nombre_usuario', '$rol_usuario'
+)";
 
-if(!$result){
-    die("Error en consulta: " . $conn->error);
-}
-
-while($row = $result->fetch_assoc()){
-    echo "<tr>
-        <td>".$row['enero']."</td>
-        <td>".$row['febrero']."</td>
-        <td>".$row['marzo']."</td>
-        <td>".$row['abril']."</td>
-        <td>".$row['mayo']."</td>
-        <td>".$row['junio']."</td>
-        <td>".$row['julio']."</td>
-        <td>".$row['agosto']."</td>
-        <td>".$row['septiembre']."</td>
-        <td>".$row['octubre']."</td>
-        <td>".$row['noviembre']."</td>
-        <td>".$row['diciembre']."</td>
-        <td>".$row['total']."</td>
-    </tr>";
-}
+$conn->query($sql);
 ?>

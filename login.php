@@ -1,74 +1,45 @@
 <?php
 session_start();
-
 include("conexion.php");
 
+// RECIBIR DATOS LOGIN
 $correo = $_POST['correo'];
 $password = $_POST['password'];
 
-// BUSCAR USUARIO
-$sql = "SELECT * FROM registro_usuario WHERE Correo='$correo'";
+$sql = "SELECT * FROM registro_usuario 
+WHERE Correo='$correo' 
+AND estado='activo'";
 
 $resultado = $conn->query($sql);
 
+// VALIDAR USUARIO
 if($resultado->num_rows > 0){
 
-    $usuario = $resultado->fetch_assoc();
-
-    // VALIDAR PENDIENTE
-    if($usuario['estado'] == 'pendiente'){
-
-        echo "
-        <script>
-        alert('Su cuenta aún no ha sido aprobada por el profesor');
-        window.location='ingreso_sistema.html';
-        </script>
-        ";
-
-        exit();
-    }
-
-    // VALIDAR BLOQUEADO
-    if($usuario['estado'] == 'bloqueado'){
-
-        echo "
-        <script>
-        alert('Usuario bloqueado');
-        window.location='ingreso_sistema.html';
-        </script>
-        ";
-
-        exit();
-    }
+    $fila = $resultado->fetch_assoc();
 
     // VALIDAR CONTRASEÑA
-    if(password_verify($password, $usuario['Contraseña'])){
+    if(password_verify($password, $fila['Contraseña'])){
 
-        // GUARDAR ÚLTIMO INGRESO
-        $conn->query("
-        UPDATE registro_usuario 
-        SET ultimo_ingreso = NOW()
-        WHERE Correo='$correo'
-        ");
+        // CREAR SESIONES
+        $_SESSION['usuario'] = $fila['Nombre'];
+        $_SESSION['rol'] = $fila['Rol'];
 
-        $_SESSION['usuario'] = $usuario['Nombre'];
-        $_SESSION['rol'] = $usuario['Rol'];
+        // REDIRECCIONAR SEGÚN ROL
+        if($fila['Rol'] == "profesor"){
 
-        // REDIRECCIÓN
-        if($usuario['Rol'] == "profesor"){
+            header("Location: menu_profesor.html");
 
-            header("Location: panel_profesor.php");
+        }elseif($fila['Rol'] == "operario"){
 
-        } else if($usuario['Rol'] == "estudiante"){
+            header("Location: menu_operario.html");
+
+        }else{
 
             header("Location: menu_estudiante.html");
 
-        } else if($usuario['Rol'] == "operario"){
-
-            header("Location: menu_operario.html");
         }
 
-    } else {
+    }else{
 
         echo "
         <script>
@@ -76,15 +47,19 @@ if($resultado->num_rows > 0){
         window.location='ingreso_sistema.html';
         </script>
         ";
+
     }
 
-} else {
+}else{
 
     echo "
     <script>
-    alert('Usuario no encontrado');
+    alert('Usuario no encontrado o pendiente de aprobación');
     window.location='ingreso_sistema.html';
     </script>
     ";
+
 }
+
+$conn->close();
 ?>
